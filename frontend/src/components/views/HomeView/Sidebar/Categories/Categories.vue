@@ -8,10 +8,10 @@ import Loading1 from "@src/components/states/loading-states/Loading1.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 import SearchInput from "@src/components/ui/inputs/SearchInput.vue";
 import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
-import ThreadsList from "@src/components/views/HomeView/Sidebar/KnowledgeRepos/ThreadsList.vue";
 import SidebarHeader from "@src/components/views/HomeView/Sidebar/SidebarHeader.vue";
 import NoThread from "@src/components/states/empty-states/NoThread.vue";
 import AddThreadModal from "@src/components/shared/modals/AddThreadModal.vue";
+import CategoryList from "@src/components/views/HomeView/Sidebar/Categories/CategoryList.vue";
 
 const store = useStore();
 const threadStore = useThreadStore();
@@ -57,7 +57,7 @@ const closeComposeModal = () => {
   <div>
     <SidebarHeader>
       <!--title-->
-      <template v-slot:title>Threads</template>
+      <template v-slot:title>Categories</template>
 
       <!--side actions-->
       <template v-slot:actions>
@@ -100,7 +100,7 @@ const closeComposeModal = () => {
         >
           <FadeTransition>
             <component
-              :is="ThreadsList"
+              :is="CategoryList"
               :filtered-threads="filteredThreads"
               :active-id="(threadStore.activeThreadId as number)"
               :handle-thread-change="handleThreadChange"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IThread } from "@src/types";
-import Thread from "./Thread.vue";
+import Thread from "./Category.vue";
 
 const props = defineProps<{
   filteredThreads?: IThread[];

@@ -7,11 +7,11 @@ import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
 import Contacts from "@src/components/views/HomeView/Sidebar/Contacts/Contacts.vue";
 import Conversations from "@src/components/views/HomeView/Sidebar/Conversations/Conversations.vue";
 import Settings from "@src/components/views/HomeView/Sidebar/Settings/Settings.vue";
-import Threads from "@src/components/views/HomeView/Sidebar/KnowledgeRepos/Threads.vue";
+import Categories from "@src/components/views/HomeView/Sidebar/Categories/Categories.vue";
 
 const store = useStore();
 
-// the selected sidebar component (e.g message/notifications/settings)
+// the selected sidebar component (e.g. message/notifications/settings)
 const ActiveComponent = computed(() => {
   if (store.activeSidebarComponent === "messages") {
     return Conversations;
@@ -20,8 +20,7 @@ const ActiveComponent = computed(() => {
   } else if (store.activeSidebarComponent === "settings") {
     return Settings;
   } else if (store.activeSidebarComponent === "knowledge") {
-    //todo knowledge threads here
-    return Threads;
+    return Categories;
   }
 });
 </script>

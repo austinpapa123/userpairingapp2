@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ThreadPreviewHeader from "@src/components/views/HomeView/ThreadPreview/ThreadPreviewHeader.vue";
 import {useThreadStore} from "@src/store/store";
+import MatchUserListHeader from "@src/components/views/HomeView/MatchUserList/MatchUserListHeader.vue";
 const threadStore = useThreadStore();
 </script>
 
 <template>
-  <ThreadPreviewHeader/>
+  <MatchUserListHeader/>
   <div>Content</div>
   <div>Comments: [......]</div>
 </template>

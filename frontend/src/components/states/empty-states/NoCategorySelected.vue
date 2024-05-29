@@ -13,10 +13,10 @@ import Typography from "@src/components/ui/data-display/Typography.vue";
       />
     </div>
 
-    <Typography variant="heading-2" class="mb-3"> No Thread selected </Typography>
+    <Typography variant="heading-2" class="mb-3"> No Category selected </Typography>
 
     <Typography variant="body-2" class="flex">
-      Select a thread from the thread menu.
+      Select a category from the category menu.
     </Typography>
   </div>
 </template>

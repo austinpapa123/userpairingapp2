@@ -7,8 +7,9 @@ import Sidebar from "@src/components/views/HomeView/Sidebar/Sidebar.vue";
 import NoChatSelected from "@src/components/states/empty-states/NoChatSelected.vue";
 import Loading3 from "@src/components/states/loading-states/Loading3.vue";
 import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
-import ThreadPreview from "@src/components/views/HomeView/ThreadPreview/ThreadPreview.vue";
 import NoThreadSelected from "@src/components/states/empty-states/NoThreadSelected.vue";
+import MatchUserList from "@src/components/views/HomeView/MatchUserList/MatchUserList.vue";
+import NoCategorySelected from "@src/components/states/empty-states/NoCategorySelected.vue";
 
 const store = useStore();
 const messageStore = useMessageStore();
@@ -76,14 +77,14 @@ onMounted(async () => {
         <div v-if="threadStore.activeThreadId">
           <FadeTransition name="fade" mode="out-in">
             <component
-                :is="ThreadPreview"
+                :is="MatchUserList"
             />
           </FadeTransition>
         </div>
         <div v-else>
           <FadeTransition name="fade" mode="out-in">
             <component
-                :is="NoThreadSelected"
+                :is="NoCategorySelected"
             />
           </FadeTransition>
         </div>
