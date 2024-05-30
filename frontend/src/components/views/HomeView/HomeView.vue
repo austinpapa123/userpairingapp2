@@ -7,7 +7,6 @@ import Sidebar from "@src/components/views/HomeView/Sidebar/Sidebar.vue";
 import NoChatSelected from "@src/components/states/empty-states/NoChatSelected.vue";
 import Loading3 from "@src/components/states/loading-states/Loading3.vue";
 import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
-import NoThreadSelected from "@src/components/states/empty-states/NoThreadSelected.vue";
 import MatchUserList from "@src/components/views/HomeView/MatchUserList/MatchUserList.vue";
 import NoCategorySelected from "@src/components/states/empty-states/NoCategorySelected.vue";
 
@@ -23,6 +22,17 @@ const activeChatComponent = computed(() => {
     return Chat;
   } else {
     return NoChatSelected;
+  }
+});
+
+// the active category chosen
+const activeThread = computed(() => {
+  if (store.status === "loading" || store.delayLoading) {
+    return Loading3;
+  } else if (threadStore.activeThreadId) {
+    return MatchUserList;
+  } else {
+    return NoCategorySelected;
   }
 });
 
@@ -73,21 +83,23 @@ onMounted(async () => {
           />
         </FadeTransition>
       </div>
-      <div v-else>
-        <div v-if="threadStore.activeThreadId">
-          <FadeTransition name="fade" mode="out-in">
-            <component
-                :is="MatchUserList"
-            />
-          </FadeTransition>
-        </div>
-        <div v-else>
-          <FadeTransition name="fade" mode="out-in">
-            <component
-                :is="NoCategorySelected"
-            />
-          </FadeTransition>
-        </div>
+      <!-- matched user lists -->
+      <div v-if="store.activeSidebarComponent === 'knowledge'"
+           id="matched users list"
+           class="xs:absolute xs:z-10 md:static grow h-full xs:w-full md:w-fit scrollbar-hidden bg-white dark:bg-gray-800 transition-all duration-500"
+           :class="
+          threadStore.threadOpen === 'open'
+            ? ['xs:left-[0px]', 'xs:static']
+            : ['xs:left-[1000px]']
+        "
+           role="region"
+      >
+        <FadeTransition name="fade" mode="out-in">
+          <component
+              :is="activeThread"
+              :key="threadStore.activeThreadId"
+          />
+        </FadeTransition>
       </div>
     </div>
   </KeepAlive>

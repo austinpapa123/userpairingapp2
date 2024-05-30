@@ -4,7 +4,7 @@ const threadStore = useThreadStore();
 </script>
 
 <template>
-  <div>
+  <div class="w-full min-h-[84px] px-5 py-6">
     TitleID {{threadStore.activeThreadId}}
   </div>
 </template>

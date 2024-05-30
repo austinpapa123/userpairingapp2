@@ -22,7 +22,7 @@ const props = defineProps<{
             class="default-outline"
             tabindex="0"
           >
-            Compose Thread/Article
+            Customize Category
           </Typography>
 
           <Button
@@ -35,14 +35,14 @@ const props = defineProps<{
           </Button>
         </div>
 
-        <!--text input for thread/article-->
+        <!--text input for customized categories-->
         <div class="px-5 pb-5 pt-6">
           <TextInput type="text" placeholder="Type Here" />
         </div>
 
-        <!--compose button-->
+        <!--customize button-->
         <div class="px-5">
-          <Button class="w-full py-4"> Compose [Not Implemented] </Button>
+          <Button class="w-full py-4"> Customize [Not Implemented] </Button>
         </div>
       </div>
     </template>

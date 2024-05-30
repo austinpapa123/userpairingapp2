@@ -10,8 +10,8 @@ import SearchInput from "@src/components/ui/inputs/SearchInput.vue";
 import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
 import SidebarHeader from "@src/components/views/HomeView/Sidebar/SidebarHeader.vue";
 import NoThread from "@src/components/states/empty-states/NoThread.vue";
-import AddThreadModal from "@src/components/shared/modals/AddThreadModal.vue";
 import CategoryList from "@src/components/views/HomeView/Sidebar/Categories/CategoryList.vue";
+import AddCategoryModal from "@src/components/shared/modals/AddCategoryModal.vue";
 
 const store = useStore();
 const threadStore = useThreadStore();
@@ -115,7 +115,7 @@ const closeComposeModal = () => {
     </div>
 
     <!--compose modal-->
-    <AddThreadModal
+    <AddCategoryModal
         :open-modal="composeOpen"
         :close-modal="closeComposeModal"
     />

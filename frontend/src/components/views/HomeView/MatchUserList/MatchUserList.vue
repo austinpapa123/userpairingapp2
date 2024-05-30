@@ -5,9 +5,11 @@ const threadStore = useThreadStore();
 </script>
 
 <template>
-  <MatchUserListHeader/>
-  <div>Content</div>
-  <div>Comments: [......]</div>
+  <div class="h-full flex flex-col scrollbar-hidden">
+    <MatchUserListHeader/>
+    <div>Content</div>
+    <div>Comments: [......]</div>
+  </div>
 </template>
 
 <style scoped>
