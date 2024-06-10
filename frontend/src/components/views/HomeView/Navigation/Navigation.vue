@@ -4,7 +4,7 @@ import {useStore} from "@src/store/store";
 import {
   ChatBubbleOvalLeftIcon,
   Cog6ToothIcon,
-  UserIcon,AcademicCapIcon
+  UserIcon, FireIcon, TagIcon,
 } from "@heroicons/vue/24/solid";
 import AccountDropdown from "@src/components/views/HomeView/Navigation/AccountDropdown.vue";
 import Logo from "@src/components/views/HomeView/Navigation/Logo.vue";
@@ -31,7 +31,7 @@ const handleActiveSidebarComponentChange = (value: string) => {
     <div class="grow">
       <nav aria-label="Main navigation">
         <ul class="xs:flex md:block xs:justify-between xs:items-center">
-          <!--message button-->
+          <!--message icon-->
           <li>
             <NavLink
               :icon="ChatBubbleOvalLeftIcon"
@@ -41,23 +41,34 @@ const handleActiveSidebarComponentChange = (value: string) => {
             />
           </li>
 
-          <!--contacts list button-->
+          <!--recommend icon-->
           <li>
             <NavLink
-              :icon="UserIcon"
-              title="Contacts"
-              @click="() => handleActiveSidebarComponentChange('contacts')"
-              :active="store.activeSidebarComponent === 'contacts'"
+                :icon="FireIcon"
+                title="Recommend"
+                @click="() => handleActiveSidebarComponentChange('recommend')"
+                :active="store.activeSidebarComponent === 'recommend'"
             />
           </li>
 
-          <!--contacts list button-->
+          <!--categories icon-->
           <li>
             <NavLink
-                :icon="AcademicCapIcon"
-                title="Knowledge Repo"
-                @click="() => handleActiveSidebarComponentChange('knowledge')"
-                :active="store.activeSidebarComponent === 'knowledge'"
+                :icon="TagIcon"
+                title="Categories"
+                @click="() => handleActiveSidebarComponentChange('categories')"
+                :active="store.activeSidebarComponent === 'categories'"
+            />
+          </li>
+
+
+          <!--contacts list icon-->
+          <li>
+            <NavLink
+                :icon="UserIcon"
+                title="Contacts"
+                @click="() => handleActiveSidebarComponentChange('contacts')"
+                :active="store.activeSidebarComponent === 'contacts'"
             />
           </li>
 

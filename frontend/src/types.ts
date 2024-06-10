@@ -25,10 +25,7 @@ export interface IConversation {
 
 export interface IThread {
   id: number;
-  author: IContact;
-  title: string;
-  content: string;
-  //comments?: IComment[];
+  category: string;
 }
 
 //export interface IComment {}

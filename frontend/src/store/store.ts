@@ -150,33 +150,23 @@ export const useThreadStore = defineStore("thread", () => {
   const threads: Ref<IThread[]> = ref([
     {
       id: 1,
-      author: "student1",
-      title: "Article A",
-      content: "once upon a time bluh bluh bluh",
+      category: "Asian",
     },
     {
       id: 2,
-      author: "student2",
-      title: "Article B",
-      content: "once upon a time cluh cluh cluh",
+      category: "Tall",
     },
     {
       id: 3,
-      author: "student1",
-      title: "Hello thread",
-      content: "once upon a time dluh dluh dluh",
+      category: "Skinny",
     },
     {
       id: 4,
-      author: "student3",
-      title: "I'm tired",
-      content: "once upon a time eluh eluh eluh",
+      category: "African American",
     },
     {
       id: 5,
-      author: "student4",
-      title: "Article G",
-      content: "once upon a time fluh fluh fluh",
+      category: "Luv Pets",
     },
   ]);
 

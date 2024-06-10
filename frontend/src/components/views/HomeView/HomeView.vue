@@ -66,7 +66,7 @@ onMounted(async () => {
         class="xs:grow-1 md:grow-0 xs:overflow-y-scroll md:overflow-visible scrollbar-hidden"
       />
       <!--chat-->
-      <div v-if="store.activeSidebarComponent !== 'knowledge'"
+      <div v-if="store.activeSidebarComponent === 'messages'"
         id="mainContent"
         class="xs:absolute xs:z-10 md:static grow h-full xs:w-full md:w-fit scrollbar-hidden bg-white dark:bg-gray-800 transition-all duration-500"
         :class="
@@ -83,8 +83,8 @@ onMounted(async () => {
           />
         </FadeTransition>
       </div>
-      <!-- matched user lists -->
-      <div v-if="store.activeSidebarComponent === 'knowledge'"
+      <!-- matched user card lists -->
+      <div v-if="store.activeSidebarComponent === 'categories'"
            id="matched users list"
            class="xs:absolute xs:z-10 md:static grow h-full xs:w-full md:w-fit scrollbar-hidden bg-white dark:bg-gray-800 transition-all duration-500"
            :class="

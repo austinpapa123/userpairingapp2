@@ -3,9 +3,8 @@ import type { IThread } from "@src/types";
 import type { Ref } from "vue";
 import { ref } from "vue";
 import {useStore} from "@src/store/store";
-import { DocumentIcon } from "@heroicons/vue/24/outline";
+import { TagIcon } from "@heroicons/vue/24/outline";
 import Typography from "@src/components/ui/data-display/Typography.vue";
-import { Vue3StatusIndicator } from 'vue3-status-indicator'
 import 'vue3-status-indicator/dist/style.css'
 
 const props = defineProps<{
@@ -53,15 +52,15 @@ const handleSelectThread = () => {
     props.handleThreadChange(props.thread.id);
 };
 
-// display 💛🧡🤍 in thread to display
-const heartNotation = " 💛🧡🤍";
+// display 💛🧡🤍💙🤎🖤❤ under category name
+const heartNotation = " 💛🧡🤍💙🤎🖤❤";
 
 </script>
 
 <template>
   <div class="select-none">
     <button
-      :aria-label="props.thread.title"
+      :aria-label="props.thread.category"
       tabindex="0"
       v-click-outside="contextConfig"
       @contextmenu.prevent="handleShowContextMenu"
@@ -76,12 +75,12 @@ const heartNotation = " 💛🧡🤍";
         'md:dark:bg-gray-600': props.isActive,
       }"
     >
-      <!--document icon-->
+      <!--tag icon-->
       <div :class="['mb-3']">
         <div
             class="w-7 h-7 mr-4 flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-700 transition duration-500"
         >
-          <DocumentIcon
+          <TagIcon
               class="w-5 h-5 text-gray-500 dark:text-white dark:opacity-70"
           />
         </div>
@@ -93,13 +92,12 @@ const heartNotation = " 💛🧡🤍";
           <div class="flex items-start">
             <div class="grow mb-4 text-start">
               <Typography variant="heading-2">
-                {{ props.thread.title }}
+                {{ props.thread.category }}
               </Typography>
             </div>
 
-            <!--thread composed date not implemented-->
             <Typography variant="body-1">
-              1:23 pm
+              ▶
             </Typography>
           </div>
         </div>
@@ -111,7 +109,7 @@ const heartNotation = " 💛🧡🤍";
                 class="flex justify-start items-center text-indigo-400"
             >
                 <span class="text-indigo-400">
-                  {{ props.thread.author + heartNotation }}
+                  {{ heartNotation }}
                 </span>
             </Typography>
           </div>

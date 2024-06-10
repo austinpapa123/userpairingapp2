@@ -19,7 +19,7 @@ const ActiveComponent = computed(() => {
     return Contacts;
   } else if (store.activeSidebarComponent === "settings") {
     return Settings;
-  } else if (store.activeSidebarComponent === "knowledge") {
+  } else if (store.activeSidebarComponent === "categories") {
     return Categories;
   }
 });
