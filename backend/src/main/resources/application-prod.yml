@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver  # remote server using distri 5.6.51
+    url: jdbc:mysql://@124.221.6.204:3306/user_center
+    username: ayue
+    password: 1197066Ff!
+  session:
+    timeout: 86400
