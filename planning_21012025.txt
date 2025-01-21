@@ -1,0 +1,93 @@
+Planning for current user pairing application (modifiable)
+
+Main Functionalities to be implemented:
+1. Private Messaging with SignalProtocal-like style
+...
+
+
+
+
+
+Phase 0: Review the current code (frontend & backend)
+
+
+
+
+
+Phase 1: Basic Messaging Infrastructure
+
+1. Implement One-to-One Instant Messaging (Without Security)
+- Set up Spring Boot STOMP WebSocket for real-time messaging
+- Implement Vue3 WebSocket client
+- Handle basic message sending/receiving using JSON payloads
+
+2. Read Signal Protocol & X3DH Documentation
+- Study Signal Protocol
+- Understand X3DH, Double Ratchet, and how key exchanges work
+- Review available open-source libraries like Libsodium or OpenPGP
+
+
+
+
+
+Phase 2: Implementing Secure Communication
+
+1. Implement Public Key Infrastructure (PKI)
+- Generate & store user key pairs (public/private) in MySQL
+- Implement key exchange logic (users fetch each other’s public keys)
+- Use Libsodium/BCrypt for basic cryptographic operations
+
+2. Implement X3DH Key Agreement
+- Implement one-time prekey, signed prekey storage
+- Implement shared secret derivation via X3DH
+- Ensure key agreement for secure messaging
+
+3. Implement Double Ratchet Algorithm for Message Encryption
+- Set up ratcheting encryption for forward secrecy
+- Encrypt/decrypt messages at the client level
+- Ensure message integrity via HMAC
+
+
+
+
+
+Phase 3: Secure Message History Storage
+
+1. Implement Secure Server-Side Message Storage
+- Store encrypted messages in MySQL
+- Ensure only encrypted data is stored, never plaintext
+- Implement indexing for searchability without exposing content
+
+2. Implement Secure Key Rotation & Expiry
+- Implement key rotation for additional security
+- Allow users to clear session keys securely
+
+
+
+
+
+Phase 4: Performance Optimization
+
+1. Optimize WebSocket Performance for Low Latency
+- Optimize STOMP message broker settings
+- Implement Redis Pub/Sub for scalable real-time messaging
+
+2. Implement Read Receipts & Message Status Tracking
+- Track delivery status (sent, delivered, read)
+- Optimize UI updates in Vue3
+
+
+
+
+
+Future Enhancements
+
+1. Implement Secure Authentication
+- OAuth2 Login (Google, GitHub, etc.)
+- MFA for additional security
+
+2. Implement Multi-Device Support
+- Securely sync encrypted messages across devices
+
+3. Implement Group Messaging
+- Extend protocol to support encrypted group messaging
