@@ -5,6 +5,37 @@ import IconButton from "@src/components/ui/inputs/IconButton.vue";
 import Button from "@src/components/ui/inputs/Button.vue";
 import TextInput from "@src/components/ui/inputs/TextInput.vue";
 import Typography from "@src/components/ui/data-display/Typography.vue";
+import myAxios from "@src/plugins/myAxios";
+
+
+const sendTestRequest = async () => {
+  try {
+    const res = await myAxios.get("/testcontroller/test2", {
+      params: { payload: "test data" } // Ensure payload is sent correctly
+    });
+    if (res) {
+      console.log(res);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const sendTestPostRequest = async () => {
+  try {
+    const res = await myAxios.post("/testcontroller/test", {
+      payload: "Hello from Vue!"
+    });
+
+    if (res) {
+      console.log("Response from backend:", res);
+    }
+  } catch (e) {
+    console.error("Error making POST request:", e);
+  }
+};
+
+
 </script>
 
 <template>
@@ -90,7 +121,8 @@ import Typography from "@src/components/ui/data-display/Typography.vue";
 
       <!--controls-->
       <div>
-        <Button class="w-full" link to="/">Reset Password [Not Implemented]</Button>
+        <Button class="w-full" @click="sendTestRequest">Reset Password [Not Implemented]</Button>
+        <Button class="w-full" @click="sendTestPostRequest">Reset Password [Not Implemented]</Button>
       </div>
     </div>
   </div>

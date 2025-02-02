@@ -7,12 +7,14 @@ import type {
   IContactGroup,
   IMessage, IContact,
 } from "@src/types";
+
 import socket, {
   socketJoinChannel, socketJoinConversation,
   socketJoinGobalUpdates,
   socketJoinPrivate,
   socketSendMessage
 } from "@src/services/chatService";
+
 import myAxios from "@src/plugins/myAxios";
 
 export const useStore = defineStore("app", () => {
@@ -88,13 +90,25 @@ export const useStore = defineStore("app", () => {
     }
   };
 
-  const setLoginUser = async () => {
+  const testMyaxios = async () => {
     try {
-      const res = await myAxios.get('/current_user');
+      const res = await myAxios.get('/testcontroller/test');
+      if(res) {
+        console.log(res);
+      }
+    } catch (error) {
+      console.log('Failed to load test:', error);
+    }
+  }
+
+  const setLoginUser = async (username: string) => {
+    try {
+      const res = await myAxios.get(`/mockusers/current/${username}`);
       // @ts-ignore
       if (res.code === 0) {
         // @ts-ignore
-        user.value = res.user;
+        user.value = res.data;
+        console.log("set login user to " + res.data.username);
       }
     } catch (error) {
       console.error('Failed to set login user:', error);

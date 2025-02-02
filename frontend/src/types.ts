@@ -2,8 +2,7 @@ export interface IContact {
   id: number;
   username: string;
   avatar: string;
-  status: string;   //online or offline
-  role: string; //admin, staff, or student
+  role: string; //admin, regular
 }
 
 export interface IMessage {

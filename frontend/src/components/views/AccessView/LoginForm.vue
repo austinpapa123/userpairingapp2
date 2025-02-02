@@ -5,6 +5,9 @@ import TextInput from "@src/components/ui/inputs/TextInput.vue";
 import { RouterLink } from "vue-router";
 import {ref} from "vue";
 import myAxios from "@src/plugins/myAxios";
+import {useStore} from "@src/store/store";
+
+const store = useStore();
 
 // references for form data
 const username = ref('');
@@ -17,17 +20,19 @@ const updatePassword = (newPassword: string) => {
 };
 
 const onSubmit = async () => {
-  const res = await myAxios.post('/login/user', {
-    username: username.value,
-    password: password.value,
+  console.log("aaaaa");
+  const res = await myAxios.post('mockusers/login', {
+    mockUserAccount: username.value,
+    mockUserPassword: password.value,
   });
   console.log("@@@ sign in", res);
-
   //todo check response, interceptor returns response.data fyi.
   //@ts-ignore
-  if(res.user) {
+  if(res) {
     console.log("login success");
-    window.location.href = '/';
+    //@ts-ignore
+    store.user = res;
+    //window.location.href = '/';
   }else{
     console.log("login failed");
   }

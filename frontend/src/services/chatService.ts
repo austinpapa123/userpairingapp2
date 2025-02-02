@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000");
+const socket = io("http://localhost:8080");
 
 export function socketSendMessage(message: {room_name: string | undefined, sender_name: string, content: string | undefined}){
     console.log('Sending message:', message);

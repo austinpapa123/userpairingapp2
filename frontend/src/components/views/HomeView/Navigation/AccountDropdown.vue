@@ -33,6 +33,7 @@ const handleCloseOnClickOutside = (event: Event) => {
 const logout = async () => {
   console.log("logout");
   await myAxios.get('/logout');
+  console.log("avatar: " + store.user?.avatar);
 };
 
 </script>
