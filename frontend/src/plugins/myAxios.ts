@@ -13,7 +13,7 @@ myAxios.interceptors.request.use(function (config: any) {
     return config;
 }, function (error: any) {
     // Do something with request error
-    console.log('request not ok')
+    console.log('myAxios request not ok')
     return error;
 });
 
@@ -22,12 +22,12 @@ myAxios.interceptors.response.use(function (response: any) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     //console.log('bout to receive respond')
-    return response.data;
+    return response;
 }, function (error: any) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    console.log('response not ok')
-    console.log("error", error);
+    console.log('myAxios response not ok')
+    console.log("myAxios response error", error);
     return error;
 });
 

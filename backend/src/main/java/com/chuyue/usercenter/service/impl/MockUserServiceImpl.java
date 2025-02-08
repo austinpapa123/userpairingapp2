@@ -1,7 +1,6 @@
 package com.chuyue.usercenter.service.impl;
 
 import com.chuyue.usercenter.common.ErrorCode;
-import com.chuyue.usercenter.constant.UserConstant;
 import com.chuyue.usercenter.exception.BusinessException;
 import com.chuyue.usercenter.model.domain.MockUser;
 import com.chuyue.usercenter.service.MockUserService;
@@ -46,10 +45,7 @@ public class MockUserServiceImpl implements MockUserService {
         }
         // Retrieve the user from the Optional
         MockUser mockUser = userOptional.get();
-        // (Optional) If you have a password field in MockUser, compare it with mockUserPassword here.
-        // For this mock example, we assume the password is valid if a user is found.
-        // Record the login status
-        request.getSession().setAttribute(UserConstant.USER_LOGIN_STATE, mockUser);
+
         return mockUser;
     }
 }

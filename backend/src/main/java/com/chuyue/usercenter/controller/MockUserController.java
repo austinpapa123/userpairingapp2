@@ -35,25 +35,4 @@ public class MockUserController {
         }
         return ResultUtils.success(mockUser);
     }
-
-    /**
-     * mock user login request handler
-     * @param mockUserLoginRequest
-     * @param request
-     * @return the mock user if login succesful
-     */
-    @Operation(summary = "user attempt mock login request")
-    @PostMapping("/login")
-    public BaseResponse<MockUser> userLogin(@RequestBody MockUserLoginRequest mockUserLoginRequest, HttpServletRequest request){
-        if(mockUserLoginRequest == null){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "failed retrieving mock login request");
-        }
-        String mockUserAccount = mockUserLoginRequest.getMockUserAccount();
-        String mockUserPassword = mockUserLoginRequest.getMockUserPassword();
-        if(StringUtils.isAnyBlank(mockUserAccount, mockUserPassword)){
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "input field empty");
-        }
-        MockUser mockUser = mockUserService.mockUserLogin(mockUserAccount, mockUserPassword, request);
-        return ResultUtils.success(mockUser);
-    }
 }

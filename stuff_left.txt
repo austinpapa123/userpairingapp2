@@ -1,0 +1,4 @@
+1. login state,, try integrating using proper JWT library (and likely Spring Security) 
+with proper signing, encryption, expiration, and error handling
+
+2.

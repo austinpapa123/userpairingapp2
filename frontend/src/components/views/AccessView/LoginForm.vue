@@ -20,23 +20,45 @@ const updatePassword = (newPassword: string) => {
 };
 
 const onSubmit = async () => {
-  console.log("aaaaa");
-  const res = await myAxios.post('mockusers/login', {
-    mockUserAccount: username.value,
-    mockUserPassword: password.value,
-  });
-  console.log("@@@ sign in", res);
-  //todo check response, interceptor returns response.data fyi.
-  //@ts-ignore
-  if(res) {
-    console.log("login success");
-    //@ts-ignore
-    store.user = res;
-    //window.location.href = '/';
-  }else{
-    console.log("login failed");
+  console.log("submit login request");
+  try {
+    // Make sure you receive the full Axios response (including headers)
+    const res = await myAxios.post(
+        'auth/login',
+        {
+          mockUserAccount: username.value,
+          mockUserPassword: password.value,
+        }
+    );
+    console.log("sign in", res);
+
+    // Extract the Authorization header (it may be lowercase or uppercase depending on configuration)
+    console.log("res.headers: " + res.headers);
+    const authHeader = res.headers['authorization'] || res.headers['Authorization'];
+    console.log('authHeader: ' + authHeader);
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      // Remove the "Bearer " prefix to get the token string.
+      const token = authHeader.substring(7);
+      try {
+        // Since our token is a Base64-encoded JSON string, decode it.
+        const decodedPayload = JSON.parse(atob(token));
+        console.log("Decoded token payload:", decodedPayload);
+        // Save the user information (or token) to your store.
+        store.user = decodedPayload;
+        // Optionally, you might want to store the token itself for future authenticated requests.
+        // localStorage.setItem("authToken", token);
+        // window.location.href = '/';
+      } catch (e) {
+        console.error("Failed to decode token:", e);
+      }
+    } else {
+      console.error("Login failed: No token returned in Authorization header");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
   }
 };
+
 
 </script>
 

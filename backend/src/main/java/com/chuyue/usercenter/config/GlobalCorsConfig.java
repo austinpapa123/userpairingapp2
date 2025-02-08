@@ -24,6 +24,8 @@ public class GlobalCorsConfig {
         config.addAllowedMethod("OPTIONS");
         // Allow credentials (cookies, authorization headers, etc.)
         config.setAllowCredentials(true);
+        // Expose the Authorization header so that the client can read it**
+        config.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // Apply this configuration to all endpoints
