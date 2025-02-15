@@ -48,4 +48,9 @@ public class MockUserServiceImpl implements MockUserService {
 
         return mockUser;
     }
+
+    @Override
+    public List<MockUser> getAllMockUsers() {
+        return mockUsers;
+    }
 }

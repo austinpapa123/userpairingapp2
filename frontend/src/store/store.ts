@@ -8,12 +8,12 @@ import type {
   IMessage, IContact,
 } from "@src/types";
 
-import socket, {
-  socketJoinChannel, socketJoinConversation,
-  socketJoinGobalUpdates,
-  socketJoinPrivate,
-  socketSendMessage
-} from "@src/services/chatService";
+// import socket, {
+//   socketJoinChannel, socketJoinConversation,
+//   socketJoinGobalUpdates,
+//   socketJoinPrivate,
+//   socketSendMessage
+// } from "@src/services/chatService";
 
 import myAxios from "@src/plugins/myAxios";
 
@@ -213,103 +213,112 @@ export const useMessageStore = defineStore("message", () => {
     if (conversation) {
       console.log(message);
       conversation.messages.push(message);
-      console.log("sfsfsfss", conversation.name);
-      socketSendMessage({room_name: conversation.name, sender_name: message.sender.username, content: message.content});
+     // socketSendMessage({room_name: conversation.name, sender_name: message.sender.username, content: message.content});
     }
   };
 
   //perhaps set up socket.on(...)
-  const setupListeners =  () => {
-    socket.on('chat_msg_incoming', async function(data) {
-        console.log("chat_msg_incoming", data);
-        const parseData = JSON.parse(data);
-        //@ts-ignore
-        const conversation = conversations.value.find(c => c.id === parseData.room_id);
-        if(parseData.sender.id !== store.user?.id) {
-          //@ts-ignore
-          conversation?.messages.push({room_name: conversation?.name, content: parseData.content, sender: parseData.sender});
-        }
 
-    });
+  // const setupListeners =  () => {
+  //   socket.on('chat_msg_incoming', async function(data) {
+  //       console.log("chat_msg_incoming", data);
+  //       const parseData = JSON.parse(data);
+  //       //@ts-ignore
+  //       const conversation = conversations.value.find(c => c.id === parseData.room_id);
+  //       if(parseData.sender.id !== store.user?.id) {
+  //         //@ts-ignore
+  //         conversation?.messages.push({room_name: conversation?.name, content: parseData.content, sender: parseData.sender});
+  //       }
+  //
+  //   });
 
-    socket.on('channel_created', function(data) {
-      console.log('channel_created signal received', JSON.parse(data));
-      const parseData = JSON.parse(data);
-      let newChannel = {
-        id: parseData.room.id,
-        type: 'group',
-        name: parseData.room.room_name,
-        displayName: parseData.room.room_name,
-        avatar: parseData.room.avatar,
-        admins: [],
-        contacts: [],
-        messages: [],
-      };
-      conversations.value.push(newChannel);
+    // socket.on('channel_created', function(data) {
+    //   console.log('channel_created signal received', JSON.parse(data));
+    //   const parseData = JSON.parse(data);
+    //   let newChannel = {
+    //     id: parseData.room.id,
+    //     type: 'group',
+    //     name: parseData.room.room_name,
+    //     displayName: parseData.room.room_name,
+    //     avatar: parseData.room.avatar,
+    //     admins: [],
+    //     contacts: [],
+    //     messages: [],
+    //   };
+    //   conversations.value.push(newChannel);
+    //
+    // });
 
-    });
-
-    socket.on('private_created', async function(data) {
-      console.log('private_created signal received', data);
-      const parseData = JSON.parse(data);
-      if(parseData.sender_name === store.user?.username || parseData.receiver_name === store.user?.username) {
-        let conversation_name = parseData.sender_name === store.user?.username ? parseData.receiver_name : parseData.sender_name;
-        const sender_user_avatar = await myAxios.get('/get_user_avatar', {
-          params: { username: parseData.sender_name }
-        });
-        let conversation_avatar = parseData.sender_name === store.user?.username ? parseData.room.avatar : sender_user_avatar;
-        let newPrivate = {
-          id: parseData.room.id,
-          type: 'couple',
-          name: parseData.room?.name,
-          displayName: conversation_name,
-          avatar: conversation_avatar,
-          contacts: [],
-          messages: [],
-        };
-        conversations.value.push(newPrivate);
-      }
-    });
-  }
+  //   socket.on('private_created', async function(data) {
+  //     console.log('private_created signal received', data);
+  //     const parseData = JSON.parse(data);
+  //     if(parseData.sender_name === store.user?.username || parseData.receiver_name === store.user?.username) {
+  //       let conversation_name = parseData.sender_name === store.user?.username ? parseData.receiver_name : parseData.sender_name;
+  //       const sender_user_avatar = await myAxios.get('/get_user_avatar', {
+  //         params: { username: parseData.sender_name }
+  //       });
+  //       let conversation_avatar = parseData.sender_name === store.user?.username ? parseData.room.avatar : sender_user_avatar;
+  //       let newPrivate = {
+  //         id: parseData.room.id,
+  //         type: 'couple',
+  //         name: parseData.room?.name,
+  //         displayName: conversation_name,
+  //         avatar: conversation_avatar,
+  //         contacts: [],
+  //         messages: [],
+  //       };
+  //       conversations.value.push(newPrivate);
+  //     }
+  //   });
+  // }
 
   //generate new conversations through compose modal
   const generateNewChannelConversation = (conversation_name: string, avatar: string) => {
     console.log("start generating channel...");
-    socketJoinChannel({name: conversation_name, avatar: avatar});
+   // socketJoinChannel({name: conversation_name, avatar: avatar});
   };
 
   const generateNewCoupleConversation = (the_other_username: string, avatar: string) => {
     console.log("start generating couple...");
-    socketJoinPrivate({sender_name: store.user?.username, receiver_name: the_other_username, avatar: avatar});
+    //socketJoinPrivate({sender_name: store.user?.username, receiver_name: the_other_username, avatar: avatar});
 
   };
 
   const joinGlobalUpdates = () => {
-    socketJoinGobalUpdates();
+   // socketJoinGobalUpdates();
   };
 
   const fetchConversations = async () => {
+
     console.log("fetching conversations for login user ...");
-    const res = await myAxios.get('/fetch_conversations', {
+
+    const res = await myAxios.get('/convo/fetch_conversations', {
       params: { username: store.user?.username }
     });
-    if(res) {
-      //@ts-ignore
-      for(let i = 0; i < res.length; i++) {
-        //@ts-ignore
-        let room = res[i];
-        let tempList = room.room_name.split("_");
-        let room_display_name = tempList[0] === store.user?.username ? tempList[1] : tempList[0];
 
-        const user_avatar = await myAxios.get('/get_user_avatar', {
-          params: { username: room_display_name }
-        });
+
+    if(res && res.data) {
+      console.log("in1");
+      const conversationData = res.data.data as IConversation[];
+      console.log("conversationData ", conversationData);
+      //@ts-ignore
+      for(let i = 0; i < conversationData.length; i++) {
+        //@ts-ignore
+        let room = conversationData[i];
+        let tempList = room.roomName?.split("_") || [];
+        let room_display_name = tempList[0] === store.user?.username ? tempList[1] : tempList[0];
+        console.log("room_display_name: " + room_display_name);
+
+        // const user_avatar = await myAxios.get('/get_user_avatar', {
+        //   params: { username: room_display_name }
+        // });
+        const user_avatar = "src/assets/images/cover5.png";
 
         let room_avatar = room.avatar === store.user?.avatar ? user_avatar : room.avatar;
         let conversation = {
           id: room.id,
           type: room.type,
-          name: room.room_name,
+          name: room.roomName,
           displayName: room_display_name,
           avatar: room_avatar,
           contacts: [],
@@ -318,27 +327,28 @@ export const useMessageStore = defineStore("message", () => {
 
         conversations.value.push(conversation);
         // fetch messages for the room
-        const messageRes = await myAxios.get('/fetch_message_history', {
-          params: { room_id: room.id }
+        const messageRes = await myAxios.get('/convo/fetch_message_history', {
+          params: { conversationId: room.id }
         });
+
         if (messageRes) {
           console.log("messageRes: ", messageRes);
           //@ts-ignore
-          for(let i = 0; i < messageRes.length; i++) {
-            //@ts-ignore
-            const sender_data = await myAxios.get('/get_user_by_name', {
-              //@ts-ignore
-              params: { username: messageRes[i].sender_name }
-            });
-            console.log("sender_data", sender_data);
-            //@ts-ignore
-            conversation.messages.push({
-              room_name: room.room_name,
-              //@ts-ignore
-              content: messageRes[i].message_text,
-              sender: sender_data,
-            });
-          }
+          // for(let i = 0; i < messageRes.length; i++) {
+          //   //@ts-ignore
+          //   const sender_data = await myAxios.get('/get_user_by_name', {
+          //     //@ts-ignore
+          //     params: { username: messageRes[i].sender_name }
+          //   });
+          //   console.log("sender_data", sender_data);
+          //   //@ts-ignore
+          //   conversation.messages.push({
+          //     room_name: room.room_name,
+          //     //@ts-ignore
+          //     content: messageRes[i].message_text,
+          //     sender: sender_data,
+          //   });
+          // }
         }
       }
     } else {
@@ -355,7 +365,7 @@ export const useMessageStore = defineStore("message", () => {
     //@ts-ignore
     const conversation = conversations.value.find(c => c.id === activeConversationId.value);
     console.log("conversation: ", conversation);
-    socketJoinConversation({room_name: conversation?.name});
+   // socketJoinConversation({room_name: conversation?.name});
   }
 
   // ui ref
@@ -372,7 +382,7 @@ export const useMessageStore = defineStore("message", () => {
     conversationOpen,
     sendMessage,
     joinGlobalUpdates,
-    setupListeners,
+   // setupListeners,
     generateNewChannelConversation,
     generateNewCoupleConversation,
   };

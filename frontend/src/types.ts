@@ -14,7 +14,7 @@ export interface IMessage {
 export interface IConversation {
   id: number;
   type: string;
-  name?: string;  //group chat could have a custom name
+  roomName?: string;  //group chat could have a custom name
   displayName?: string;
   avatar?: string;  //group chat or public channel could have avatar
   admins?: number[];  //could be group chat

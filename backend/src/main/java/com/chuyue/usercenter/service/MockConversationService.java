@@ -9,5 +9,6 @@ public interface MockConversationService {
 
     List<Conversation> getConversationsByUser(String username);
     List<Message> getMessagesForConversation(Long conversationId);
+    void initializeConversation();
 
 }
