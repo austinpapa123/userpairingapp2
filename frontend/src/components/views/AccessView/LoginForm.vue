@@ -42,12 +42,27 @@ const onSubmit = async () => {
       try {
         // Since our token is a Base64-encoded JSON string, decode it.
         const decodedPayload = JSON.parse(atob(token));
+
         console.log("Decoded token payload:", decodedPayload);
+
         // Save the user information (or token) to your store.
         store.user = decodedPayload;
-        // Optionally, you might want to store the token itself for future authenticated requests.
-        // localStorage.setItem("authToken", token);
-        // window.location.href = '/';
+
+        // Check if user info already exists in localStorage to avoid overwriting
+        if (!localStorage.getItem('user')) {
+          // Persist the user info in localStorage only if not already stored
+          localStorage.setItem('user', JSON.stringify(decodedPayload));
+        }
+
+        // Optionally, you could also store the token if you plan to send it with subsequent requests
+        if (!localStorage.getItem('authToken')) {
+          localStorage.setItem('authToken', token);
+        }
+
+        console.log("login success");
+
+        window.location.href = '/';
+
       } catch (e) {
         console.error("Failed to decode token:", e);
       }

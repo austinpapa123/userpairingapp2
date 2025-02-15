@@ -39,17 +39,19 @@ const activeThread = computed(() => {
 onMounted(async () => {
   //load the contacts info of current login user
   console.log("contacts: ", store.contacts);
-  //if(store.contacts.length === 0){await store.loadContacts();}
+
   //set login user
-  console.log("login user: ", store.user);
-  await store.setLoginUser(store.user.username);
+  store.setLoginUser();
+  console.log("login user: ", store.user?.username);
+
   //set up socket listeners
   //messageStore.setupListeners();
+
   //fetch login user related conversations
   console.log("conversations: ", messageStore.conversations);
+
   if(messageStore.conversations.length === 0) {await messageStore.fetchConversations();}
-  //register to global updates
-  //messageStore.joinGlobalUpdates();
+
 });
 
 </script>

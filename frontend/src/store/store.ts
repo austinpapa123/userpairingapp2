@@ -101,19 +101,12 @@ export const useStore = defineStore("app", () => {
     }
   }
 
-  const setLoginUser = async (username: string) => {
-    try {
-      const res = await myAxios.get(`/mockusers/current/${username}`);
-      // @ts-ignore
-      if (res.code === 0) {
-        // @ts-ignore
-        user.value = res.data;
-        console.log("set login user to " + res.data.username);
-      }
-    } catch (error) {
-      console.error('Failed to set login user:', error);
+  const setLoginUser = () => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      user.value = JSON.parse(storedUser);
     }
-  };
+  }
 
   const deleteContact = async (delete_contact_id: number) => {
     console.log("delete_contact_id", delete_contact_id);
@@ -307,9 +300,11 @@ export const useMessageStore = defineStore("message", () => {
         let room = res[i];
         let tempList = room.room_name.split("_");
         let room_display_name = tempList[0] === store.user?.username ? tempList[1] : tempList[0];
+
         const user_avatar = await myAxios.get('/get_user_avatar', {
           params: { username: room_display_name }
         });
+
         let room_avatar = room.avatar === store.user?.avatar ? user_avatar : room.avatar;
         let conversation = {
           id: room.id,
@@ -320,6 +315,7 @@ export const useMessageStore = defineStore("message", () => {
           contacts: [],
           messages: [],
         };
+
         conversations.value.push(conversation);
         // fetch messages for the room
         const messageRes = await myAxios.get('/fetch_message_history', {
@@ -345,7 +341,7 @@ export const useMessageStore = defineStore("message", () => {
           }
         }
       }
-    }else {
+    } else {
       console.log("fetch conversations fail")
     }
     //@ts-ignore

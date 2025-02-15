@@ -34,6 +34,10 @@ const logout = async () => {
   console.log("logout");
   await myAxios.get('/logout');
   console.log("avatar: " + store.user?.avatar);
+
+  // To clear the stored user data:
+  localStorage.removeItem('user');
+  localStorage.removeItem('authToken');
 };
 
 </script>
