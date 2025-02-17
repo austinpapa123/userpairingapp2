@@ -8,14 +8,9 @@ import type {
   IMessage, IContact,
 } from "@src/types";
 
-// import socket, {
-//   socketJoinChannel, socketJoinConversation,
-//   socketJoinGobalUpdates,
-//   socketJoinPrivate,
-//   socketSendMessage
-// } from "@src/services/chatService";
 
 import myAxios from "@src/plugins/myAxios";
+import {chatServices} from "@src/services/chatServices";
 
 export const useStore = defineStore("app", () => {
   // local storage, currently never used in project
@@ -90,16 +85,6 @@ export const useStore = defineStore("app", () => {
     }
   };
 
-  const testMyaxios = async () => {
-    try {
-      const res = await myAxios.get('/testcontroller/test');
-      if(res) {
-        console.log(res);
-      }
-    } catch (error) {
-      console.log('Failed to load test:', error);
-    }
-  }
 
   const setLoginUser = () => {
     const storedUser = localStorage.getItem('user');
@@ -207,98 +192,41 @@ export const useMessageStore = defineStore("message", () => {
     activeConversationId.value = conversationId;
   };
 
+  const onMessageReceived = (message: IMessage) => {
+    const currConversation = conversations.value.find(c => c.id === activeConversationId.value);
+    if (currConversation) {
+      console.log(message);
+      currConversation.messages.push(message);
+    }
+  };
+
+  const connectChatRoom = () => {
+    console.log("connectChatRoom");
+    chatServices.connect(onMessageReceived, store.user?.username, store.user?.avatar, "alice_bob");
+  };
+
   // function to send a new message
   const sendMessage = (conversationId: number, message: IMessage) => {
     const conversation = conversations.value.find(c => c.id === conversationId);
     if (conversation) {
       console.log(message);
       conversation.messages.push(message);
-     // socketSendMessage({room_name: conversation.name, sender_name: message.sender.username, content: message.content});
+
+      chatServices.sendMessage(message?.content, message.sender.username, message.sender.avatar, "alice_bob");
+
     }
-  };
 
-  //perhaps set up socket.on(...)
 
-  // const setupListeners =  () => {
-  //   socket.on('chat_msg_incoming', async function(data) {
-  //       console.log("chat_msg_incoming", data);
-  //       const parseData = JSON.parse(data);
-  //       //@ts-ignore
-  //       const conversation = conversations.value.find(c => c.id === parseData.room_id);
-  //       if(parseData.sender.id !== store.user?.id) {
-  //         //@ts-ignore
-  //         conversation?.messages.push({room_name: conversation?.name, content: parseData.content, sender: parseData.sender});
-  //       }
-  //
-  //   });
-
-    // socket.on('channel_created', function(data) {
-    //   console.log('channel_created signal received', JSON.parse(data));
-    //   const parseData = JSON.parse(data);
-    //   let newChannel = {
-    //     id: parseData.room.id,
-    //     type: 'group',
-    //     name: parseData.room.room_name,
-    //     displayName: parseData.room.room_name,
-    //     avatar: parseData.room.avatar,
-    //     admins: [],
-    //     contacts: [],
-    //     messages: [],
-    //   };
-    //   conversations.value.push(newChannel);
-    //
-    // });
-
-  //   socket.on('private_created', async function(data) {
-  //     console.log('private_created signal received', data);
-  //     const parseData = JSON.parse(data);
-  //     if(parseData.sender_name === store.user?.username || parseData.receiver_name === store.user?.username) {
-  //       let conversation_name = parseData.sender_name === store.user?.username ? parseData.receiver_name : parseData.sender_name;
-  //       const sender_user_avatar = await myAxios.get('/get_user_avatar', {
-  //         params: { username: parseData.sender_name }
-  //       });
-  //       let conversation_avatar = parseData.sender_name === store.user?.username ? parseData.room.avatar : sender_user_avatar;
-  //       let newPrivate = {
-  //         id: parseData.room.id,
-  //         type: 'couple',
-  //         name: parseData.room?.name,
-  //         displayName: conversation_name,
-  //         avatar: conversation_avatar,
-  //         contacts: [],
-  //         messages: [],
-  //       };
-  //       conversations.value.push(newPrivate);
-  //     }
-  //   });
-  // }
-
-  //generate new conversations through compose modal
-  const generateNewChannelConversation = (conversation_name: string, avatar: string) => {
-    console.log("start generating channel...");
-   // socketJoinChannel({name: conversation_name, avatar: avatar});
-  };
-
-  const generateNewCoupleConversation = (the_other_username: string, avatar: string) => {
-    console.log("start generating couple...");
-    //socketJoinPrivate({sender_name: store.user?.username, receiver_name: the_other_username, avatar: avatar});
-
-  };
-
-  const joinGlobalUpdates = () => {
-   // socketJoinGobalUpdates();
   };
 
   const fetchConversations = async () => {
-
     console.log("fetching conversations for login user ...");
 
     const res = await myAxios.get('/convo/fetch_conversations', {
       params: { username: store.user?.username }
     });
 
-
     if(res && res.data) {
-      console.log("in1");
       const conversationData = res.data.data as IConversation[];
       console.log("conversationData ", conversationData);
       //@ts-ignore
@@ -309,11 +237,7 @@ export const useMessageStore = defineStore("message", () => {
         let room_display_name = tempList[0] === store.user?.username ? tempList[1] : tempList[0];
         console.log("room_display_name: " + room_display_name);
 
-        // const user_avatar = await myAxios.get('/get_user_avatar', {
-        //   params: { username: room_display_name }
-        // });
         const user_avatar = "src/assets/images/cover5.png";
-
         let room_avatar = room.avatar === store.user?.avatar ? user_avatar : room.avatar;
         let conversation = {
           id: room.id,
@@ -331,24 +255,19 @@ export const useMessageStore = defineStore("message", () => {
           params: { conversationId: room.id }
         });
 
-        if (messageRes) {
+        if (messageRes && messageRes.data) {
           console.log("messageRes: ", messageRes);
+          const messageData = messageRes.data.data as IMessage[];
           //@ts-ignore
-          // for(let i = 0; i < messageRes.length; i++) {
-          //   //@ts-ignore
-          //   const sender_data = await myAxios.get('/get_user_by_name', {
-          //     //@ts-ignore
-          //     params: { username: messageRes[i].sender_name }
-          //   });
-          //   console.log("sender_data", sender_data);
-          //   //@ts-ignore
-          //   conversation.messages.push({
-          //     room_name: room.room_name,
-          //     //@ts-ignore
-          //     content: messageRes[i].message_text,
-          //     sender: sender_data,
-          //   });
-          // }
+          for(let i = 0; i < messageData.length; i++) {
+            //@ts-ignore
+            conversation.messages.push({
+              room_name: room.roomName,
+              //@ts-ignore
+              content: messageData[i].content,
+              sender: messageData[i].sender,
+            });
+          }
         }
       }
     } else {
@@ -358,15 +277,6 @@ export const useMessageStore = defineStore("message", () => {
     store.status = "success";
   };
 
-  const joinConversation = () => {
-
-    console.log("conversations: ", conversations);
-    console.log("activeConversationID: ", activeConversationId.value);
-    //@ts-ignore
-    const conversation = conversations.value.find(c => c.id === activeConversationId.value);
-    console.log("conversation: ", conversation);
-   // socketJoinConversation({room_name: conversation?.name});
-  }
 
   // ui ref
   const conversationOpen: Ref<string | undefined> = ref(
@@ -375,15 +285,10 @@ export const useMessageStore = defineStore("message", () => {
 
   return {
     conversations,
-    joinConversation,
     activeConversationId,
     setActiveConversation,
     fetchConversations,
     conversationOpen,
     sendMessage,
-    joinGlobalUpdates,
-   // setupListeners,
-    generateNewChannelConversation,
-    generateNewCoupleConversation,
   };
 });

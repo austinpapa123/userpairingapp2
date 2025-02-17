@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Ref } from "vue";
+import {onMounted, Ref} from "vue";
 
 import { computed, provide, ref } from "vue";
 import {useStore, useMessageStore} from "@src/store/store";
@@ -16,7 +16,8 @@ const activeConversation = computed(() => {
   let activeConversation = messageStore.conversations.find(
     (conversation) => conversation.id === messageStore.activeConversationId
   );
-  console.log("@@@", activeConversation);
+  console.log("activeConversation: ", activeConversation);
+  console.log("in Chat messageStore: ", messageStore.conversations);  //could access the info
   return activeConversation;
 });
 
@@ -59,6 +60,11 @@ const handleDeselectMessage = (messageId: number) => {
     selectMode.value = false;
   }
 };
+
+onMounted(() => {
+  console.log(messageStore.conversations);  //could access but no fields set
+});
+
 </script>
 
 <template>

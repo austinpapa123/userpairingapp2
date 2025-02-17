@@ -16,7 +16,6 @@ const props = defineProps<{
 const store = useStore();
 
 const container: Ref<HTMLElement | null> = ref(null);
-
 const activeConversation = <IConversation>inject("activeConversation");
 
 // checks whether the previous message was sent by the same user.
@@ -32,7 +31,11 @@ const isFollowUp = (index: number, previousIndex: number): boolean => {
 
 // checks whether the message is sent by the authenticated user.
 const isSelf = (message: IMessage): boolean => {
-  return Boolean(store.user && message.sender.id === store.user.id);
+  //console.log("ChatMiddle login user id: " + store.user?.id);
+  //console.log("ChatMiddle sender id: " + message.sender.id);
+  const loginUserId = String(store.user?.id);
+  const senderId = String(message.sender.id);
+  return Boolean(store.user && senderId === loginUserId);
 };
 
 // scroll messages to bottom.

@@ -13,6 +13,8 @@
     "@videojs-player/vue": "^1.0.0",
     "@vueuse/integrations": "^9.3.0",
     "axios": "^1.6.8",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "click-outside-vue3": "^4.0.1",
     "focus-trap": "^7.0.0",
     "linkify-string": "^4.0.2",

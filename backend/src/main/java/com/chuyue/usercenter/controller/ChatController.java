@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ChatController {
@@ -17,10 +16,6 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @GetMapping("/chatcontroller/test")
-    public String test(String payload) {
-        return payload;
-    }
 
     /**
      * broadcasting channel request
@@ -30,10 +25,11 @@ public class ChatController {
     @MessageMapping("/sendMessage")
     @SendTo("/topic/testing")
     public ChatMessage sendMessage(
-        @Payload ChatMessage chatMessage
+            @Payload ChatMessage chatMessage
     ) {
         return chatMessage;
     }
+
 
     /**
      * New user join notification
@@ -44,8 +40,8 @@ public class ChatController {
     @MessageMapping("/joinUser")
     @SendTo("/topic/testing")
     public ChatMessage joinUser(
-        @Payload ChatMessage chatMessage,
-        SimpMessageHeaderAccessor simpMessageHeaderAccessor
+            @Payload ChatMessage chatMessage,
+            SimpMessageHeaderAccessor simpMessageHeaderAccessor
     ) {
         //Add username in web socket session
         // Log existing session attributes
@@ -55,6 +51,7 @@ public class ChatController {
         System.out.println("Updated session attributes: " + simpMessageHeaderAccessor.getSessionAttributes());
         return chatMessage;
     }
+
 
     /**
      * handling private chat message

@@ -25,9 +25,10 @@ public class MockUserController {
         this.mockUserService = userService;
     }
 
-    @Operation(summary = "retrieve current mock user request")
-    @GetMapping("/current/{username}")
-    public BaseResponse<MockUser> getCurrentMockUser(HttpServletRequest request, @PathVariable String username) {
+
+    @Operation(summary = "look up mock user request (not login user)")
+    @GetMapping("/lookup/{username}")
+    public BaseResponse<MockUser> lookUpMockUser(HttpServletRequest request, @PathVariable String username) {
         System.out.println("current username: " + username);
         MockUser mockUser = mockUserService.getUserByUsername(username);
         if (mockUser == null) {

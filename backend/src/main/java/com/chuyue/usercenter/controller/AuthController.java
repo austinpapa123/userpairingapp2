@@ -55,7 +55,8 @@ public class AuthController {
     // Simple token generator: converts a JSON-like payload to Base64.
     // In production, use a JWT library (like jjwt) to generate signed tokens.
     private String generateToken(MockUser user) {
-        String tokenPayload = "{\"username\":\"" + user.getUsername() + "\",\"role\":\"" + user.getRole() + "\",\"avatar\":\"" + user.getAvatar() + "\"}";
+        String tokenPayload = "{\"id\":\"" + user.getId() + "\",\"username\":\"" + user.getUsername() + "\",\"role\":\"" + user.getRole() + "\",\"avatar\":\"" + user.getAvatar() + "\"}";
+        System.out.println(tokenPayload);
         return Base64.getEncoder().encodeToString(tokenPayload.getBytes(StandardCharsets.UTF_8));
     }
 }

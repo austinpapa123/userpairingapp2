@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted} from "vue";
+import {computed, onBeforeUnmount, onMounted} from "vue";
 import {useStore, useMessageStore, useThreadStore} from "@src/store/store";
 import Chat from "@src/components/views/HomeView/Chat/Chat.vue";
 import Navigation from "@src/components/views/HomeView/Navigation/Navigation.vue";
@@ -51,6 +51,8 @@ onMounted(async () => {
   console.log("conversations: ", messageStore.conversations);
 
   if(messageStore.conversations.length === 0) {await messageStore.fetchConversations();}
+
+
 
 });
 

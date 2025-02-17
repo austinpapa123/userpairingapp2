@@ -48,21 +48,27 @@ const handleClickOutside = (event: Event) => {
 };
 
 const send = () => {
+
   const sender: IContact = {
     id: store.user?.id || -1,
     username: store.user?.username || '',
     avatar: store.user?.avatar || '',
-    status: store.user?.status || '',
     role: store.user?.role || '',
   };
+
   const messageInstance: IMessage =  {
-    room_name: activeConversation.name || '',
+    room_name: activeConversation.roomName || '',
     content: value.value,
     sender: sender,
   };
+
   messageStore.sendMessage(activeConversation.id, messageInstance);
+
+  console.log("value.value: " + value.value);
+
   //empty the input box as it's bonded to Ref<> value
   value.value = "";
+
 };
 
 </script>

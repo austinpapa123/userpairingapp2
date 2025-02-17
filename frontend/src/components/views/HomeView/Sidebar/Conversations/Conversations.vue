@@ -46,10 +46,11 @@ const handleConversationChange = (conversationId: number) => {
 
   //@ts-ignore
   messageStore.activeConversationId = conversationId;
-  messageStore.joinConversation();
+
   //fetch message history for this conversation
 
   messageStore.conversationOpen = "open";
+
 };
 
 // (event) close the compose modal.
