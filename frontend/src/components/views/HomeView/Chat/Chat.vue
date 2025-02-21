@@ -62,14 +62,11 @@ const handleDeselectMessage = (messageId: number) => {
 };
 
 onMounted(() => {
-  console.log("Chat is mounted");
-  console.log("Chat starts connecting websocket");
   messageStore.connectChatRoom();
 
 });
 
 onUnmounted(() => {
-  console.log("Chat is unmounted");
   messageStore.disconnectChatRoom();
 })
 

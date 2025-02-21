@@ -56,8 +56,8 @@ const send = () => {
     role: store.user?.role || '',
   };
 
-  const messageInstance: IMessage =  {
-    room_name: activeConversation.roomName || '',
+  const messageInstance: any =  {
+    roomName: activeConversation.roomName || '',
     content: value.value,
     sender: sender,
   };

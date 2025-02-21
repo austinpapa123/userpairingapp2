@@ -31,8 +31,7 @@ const isFollowUp = (index: number, previousIndex: number): boolean => {
 
 // checks whether the message is sent by the authenticated user.
 const isSelf = (message: IMessage): boolean => {
-  //console.log("ChatMiddle login user id: " + store.user?.id);
-  //console.log("ChatMiddle sender id: " + message.sender.id);
+  console.log("isSelf", message);
   const loginUserId = String(store.user?.id);
   const senderId = String(message.sender.id);
   return Boolean(store.user && senderId === loginUserId);

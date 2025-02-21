@@ -2,12 +2,12 @@
 import SockJS from 'sockjs-client/dist/sockjs.min.js'
 //@ts-ignore
 import Stomp from 'stompjs'
+import {IContact, IMessage, MockUser} from "@src/types";
 
 let stompClient: any = null;
 let subscription: any = null;
 
-const connect = (onMessageReceived: any, senderId: number | undefined, avatarUrl1: string | undefined, chatroomID: string) => {
-    console.log("connected");
+const connect = (onMessageReceived: any, theSender: IContact | undefined, chatroomID: string) => {
     const socket = new SockJS('http://localhost:8080/signal/ws');
     stompClient = Stomp.over(socket);
 
@@ -17,21 +17,23 @@ const connect = (onMessageReceived: any, senderId: number | undefined, avatarUrl
         });
         stompClient.send('/private/' + chatroomID,
             {},
-            JSON.stringify({senderId: senderId, avatarUrl: avatarUrl1, messageType: 'JOIN', content: 'user has just joined'}));
+            JSON.stringify({
+                id: -2,
+                messageType: 'JOIN',
+                content: 'user has just joined',
+                sender: theSender,
+                timestamp: new Date().toISOString(),
+            }));
     });
 };
 
-const sendMessage = (message: string | undefined, senderId: number, avatarUrl: string, chatroomID: string) => {
+
+const sendMessage = (message: IMessage) => {
     if (message && stompClient) {
-        const chatMessage = {
-            content: message,
-            messageType: "CHAT",
-            senderId: senderId,
-            avatarUrl: avatarUrl,
-        };
-        stompClient.send('/chat/private/' + chatroomID, {}, JSON.stringify(chatMessage));
+        stompClient.send('/chat/private/' + message.roomName, {}, JSON.stringify(message));
     }
 };
+
 
 const disconnect = () => {
     if(subscription != null) {

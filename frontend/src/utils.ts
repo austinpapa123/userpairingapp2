@@ -1,7 +1,7 @@
 import type {
   IContact,
   IConversation,
-  IMessage,
+  IMessage, MockUser,
 } from "@src/types";
 import {useStore, useMessageStore} from "@src/store/store";
 
@@ -103,3 +103,29 @@ export const unicodeToEmoji = (unicode: string) => {
     .map((hex) => String.fromCodePoint(hex))
     .join("");
 };
+
+
+/**
+ * Helper function to convert IContact(frontend) to MockUser(Backend)
+ * @param contact
+ */
+export const convertToMockUser = (contact: IContact): MockUser => ({
+  id: contact.id,
+  username: contact.username,
+  avatar: contact.avatar,
+  role: contact.role,
+});
+
+
+/**
+ * Helper function to convert MockUser(Backend) to IContact(frontend)
+ * @param mockUser
+ */
+export const convertToIContact = (mockUser: MockUser): IContact => ({
+  id: mockUser.id,
+  username: mockUser.username,
+  avatar: mockUser.avatar,
+  role: mockUser.role,
+});
+
+

@@ -5,11 +5,22 @@ export interface IContact {
   role: string; //admin, regular
 }
 
+export interface MockUser { //backend user for now
+  id: number;
+  username: string;
+  avatar: string;
+  role: string;
+}
+
 export interface IMessage {
-  room_name: string,
+  id: number;
+  roomName: string;
+  messageType: string;
   content?: string;
   sender: IContact;
+  timestamp?: any;
 }
+
 
 export interface IConversation {
   id: number;

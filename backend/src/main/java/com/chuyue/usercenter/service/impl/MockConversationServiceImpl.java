@@ -1,5 +1,6 @@
 package com.chuyue.usercenter.service.impl;
 
+import com.chuyue.usercenter.common.MessageType;
 import com.chuyue.usercenter.model.domain.Conversation;
 import com.chuyue.usercenter.model.domain.Message;
 import com.chuyue.usercenter.model.domain.MockUser;
@@ -41,8 +42,18 @@ public class MockConversationServiceImpl implements MockConversationService {
 
         // Add some sample messages
         List<Message> messages = new ArrayList<>();
-        messages.add(new Message(1L, "Hey Bob, how are you?", participants.get(0), LocalDateTime.now().minusMinutes(5)));
-        messages.add(new Message(2L, "I'm good, Alice! How about you?", participants.get(1), LocalDateTime.now().minusMinutes(4)));
+        messages.add(new Message(1L,
+                MessageType.CHAT,
+                "alice_bob",
+                "Hey Bob, how are you?",
+                participants.get(0),
+                LocalDateTime.now().minusMinutes(5)));
+        messages.add(new Message(2L,
+                MessageType.CHAT,
+                "alice_bob",
+                "I'm good, Alice! How about you?",
+                participants.get(1),
+                LocalDateTime.now().minusMinutes(4)));
         conversation.setMessages(messages);
 
         conversations.put(conversation.getId(), conversation); // Store in memory

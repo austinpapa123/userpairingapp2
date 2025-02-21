@@ -5,12 +5,13 @@ import { ref } from "vue";
 import type {
   IConversation,
   IContactGroup,
-  IMessage, IContact,
+  IMessage, IContact, IThread,
 } from "@src/types";
 
 
 import myAxios from "@src/plugins/myAxios";
 import {chatServices} from "@src/services/chatServices";
+import {convertToIContact, convertToMockUser} from "@src/utils";
 
 export const useStore = defineStore("app", () => {
   // local storage, currently never used in project
@@ -192,17 +193,27 @@ export const useMessageStore = defineStore("message", () => {
     activeConversationId.value = conversationId;
   };
 
-  const onMessageReceived = (message: IMessage) => {
+  const onMessageReceived = (message: any) => {
+    console.log("onMessageReceived: ", message);
+
+    const formattedMessage = {
+      id: message.id,
+      roomName: message.roomName,
+      messageType:message.messageType,
+      content: message.content,
+      sender: convertToIContact(message.sender),
+      timestamp:message.timestamp,
+    };
+
     const currConversation = conversations.value.find(c => c.id === activeConversationId.value);
     if (currConversation) {
-      console.log(message);
-      currConversation.messages.push(message);
+      currConversation.messages.push(formattedMessage);
     }
   };
 
   const connectChatRoom = () => {
     console.log("connectChatRoom");
-    chatServices.connect(onMessageReceived, store.user?.id, store.user?.avatar, "alice_bob");
+    chatServices.connect(onMessageReceived, store?.user, "alice_bob");
   };
 
   const disconnectChatRoom = () => {
@@ -211,14 +222,21 @@ export const useMessageStore = defineStore("message", () => {
   };
 
   // function to send a new message
-  const sendMessage = (conversationId: number, message: IMessage) => {
+  const sendMessage = (conversationId: number, messageInstance: any) => {
     const conversation = conversations.value.find(c => c.id === conversationId);
     if (conversation) {
-      console.log(message);
-      //conversation.messages.push(message);
+      console.log(messageInstance);
 
-      chatServices.sendMessage(message?.content, message.sender.id, message.sender.avatar, "alice_bob");
+      const messageToSend: IMessage = {
+        id: -3,
+        content: messageInstance.content,
+        messageType: "CHAT",
+        sender: convertToMockUser(messageInstance.sender),
+        roomName: "alice_bob",
+        timestamp: new Date().toISOString(),
+      };
 
+      chatServices.sendMessage(messageToSend);
     }
 
 
@@ -267,7 +285,7 @@ export const useMessageStore = defineStore("message", () => {
           for(let i = 0; i < messageData.length; i++) {
             //@ts-ignore
             conversation.messages.push({
-              room_name: room.roomName,
+              roomName: room.roomName,
               //@ts-ignore
               content: messageData[i].content,
               sender: messageData[i].sender,

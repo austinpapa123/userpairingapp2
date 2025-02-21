@@ -1,7 +1,7 @@
 package com.chuyue.usercenter.config;
 
 import com.chuyue.usercenter.common.MessageType;
-import com.chuyue.usercenter.model.domain.ChatMessage;
+import com.chuyue.usercenter.model.domain.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -30,9 +30,9 @@ public class WebSocketEventListener {
 //            messageTemplate.convertAndSend("/topic/testing", chatMessage);
 //        }
 
-        System.out.println(headerAccessor.getMessage());
-        var chatMessage = ChatMessage.builder().messageType(MessageType.LEAVE)
-                    .senderName("someone").build();
-        messageTemplate.convertAndSend("/topic/testing", chatMessage);
+        System.out.println("headerAccessor.getMessage()" + headerAccessor.getMessage());
+        var message = Message.builder().messageType(MessageType.LEAVE)
+                    .build();
+        messageTemplate.convertAndSend("/topic/testing", message);
     }
 }
