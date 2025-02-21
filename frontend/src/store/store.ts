@@ -202,7 +202,12 @@ export const useMessageStore = defineStore("message", () => {
 
   const connectChatRoom = () => {
     console.log("connectChatRoom");
-    chatServices.connect(onMessageReceived, store.user?.username, store.user?.avatar, "alice_bob");
+    chatServices.connect(onMessageReceived, store.user?.id, store.user?.avatar, "alice_bob");
+  };
+
+  const disconnectChatRoom = () => {
+    console.log("disconnectChatRoom");
+    chatServices.disconnect();
   };
 
   // function to send a new message
@@ -210,9 +215,9 @@ export const useMessageStore = defineStore("message", () => {
     const conversation = conversations.value.find(c => c.id === conversationId);
     if (conversation) {
       console.log(message);
-      conversation.messages.push(message);
+      //conversation.messages.push(message);
 
-      chatServices.sendMessage(message?.content, message.sender.username, message.sender.avatar, "alice_bob");
+      chatServices.sendMessage(message?.content, message.sender.id, message.sender.avatar, "alice_bob");
 
     }
 
@@ -285,6 +290,8 @@ export const useMessageStore = defineStore("message", () => {
 
   return {
     conversations,
+    connectChatRoom,
+    disconnectChatRoom,
     activeConversationId,
     setActiveConversation,
     fetchConversations,

@@ -46,7 +46,7 @@ public class ChatController {
         //Add username in web socket session
         // Log existing session attributes
         System.out.println("Existing session attributes: " + simpMessageHeaderAccessor.getSessionAttributes());
-        simpMessageHeaderAccessor.getSessionAttributes().put("usernameintchat", chatMessage.getSender());
+        simpMessageHeaderAccessor.getSessionAttributes().put("usernameintchat", chatMessage.getSenderId());
         // Log updated session attributes
         System.out.println("Updated session attributes: " + simpMessageHeaderAccessor.getSessionAttributes());
         return chatMessage;
@@ -61,6 +61,7 @@ public class ChatController {
     @MessageMapping("/private/{chatRoomId}")
     public void handlePrivateChatMessage(@DestinationVariable String chatRoomId, ChatMessage message) {
         // Logic to handle the message, such as broadcasting it to users subscribed to this chat room
+        System.out.println("@MessageMapping /private/" + chatRoomId + "/" + message);
         simpMessagingTemplate.convertAndSend("/topic/private/" + chatRoomId, message);
     }
 }

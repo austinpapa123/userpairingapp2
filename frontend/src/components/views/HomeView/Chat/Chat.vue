@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, Ref} from "vue";
+import {onMounted, onUnmounted, Ref} from "vue";
 
 import { computed, provide, ref } from "vue";
 import {useStore, useMessageStore} from "@src/store/store";
@@ -62,8 +62,16 @@ const handleDeselectMessage = (messageId: number) => {
 };
 
 onMounted(() => {
-  console.log(messageStore.conversations);  //could access but no fields set
+  console.log("Chat is mounted");
+  console.log("Chat starts connecting websocket");
+  messageStore.connectChatRoom();
+
 });
+
+onUnmounted(() => {
+  console.log("Chat is unmounted");
+  messageStore.disconnectChatRoom();
+})
 
 </script>
 

@@ -29,7 +29,7 @@ const recording = ref(false);
 // open emoji picker.
 const showPicker = ref(false);
 
-// open modal used to send multiple attachments attachments.
+// open modal used to send multiple attachments.
 const openAttachmentsModal = ref(false);
 
 // close picker when you click outside.
